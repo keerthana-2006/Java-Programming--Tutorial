@@ -1,0 +1,34 @@
+import java.util.Scanner;  // Import Scanner class
+
+public class UserInputDemo {
+    public static void main(String[] args) {
+        
+        // Create Scanner object
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Enter your name: ");
+        String name = scanner.nextLine();  // Read entire line including spaces
+        
+        System.out.println("Enter your age: ");
+        int age = scanner.nextInt();        // Read integer
+        
+        System.out.println("Enter your salary: ");
+        double salary = scanner.nextDouble(); // Read double
+        
+        // Consume newline left by nextInt() or nextDouble()
+        scanner.nextLine();
+        
+        System.out.println("Enter your city: ");
+        String city = scanner.nextLine();
+        
+        // Display the input
+        System.out.println("\n--- User Information ---");
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("Salary: $" + salary);
+        System.out.println("City: " + city);
+        
+        // Close scanner to prevent resource leak
+        scanner.close();
+    }
+}
