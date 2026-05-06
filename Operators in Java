@@ -1,0 +1,64 @@
+public class OperatorsDemo {
+    public static void main(String[] args) {
+        
+        // Arithmetic Operators
+        int a = 10, b = 3;
+        System.out.println("Addition: " + (a + b));       // 13
+        System.out.println("Subtraction: " + (a - b));    // 7
+        System.out.println("Multiplication: " + (a * b)); // 30
+        System.out.println("Division: " + (a / b));        // 3 (integer division)
+        System.out.println("Modulus: " + (a % b));         // 1 (remainder)
+        
+        // Unary Operators
+        int x = 5;
+        System.out.println("x++: " + (x++));  // Post-increment: prints 5, then x=6
+        System.out.println("++x: " + (++x));  // Pre-increment: x=7, prints 7
+        System.out.println("x--: " + (x--));  // Post-decrement: prints 7, then x=6
+        System.out.println("--x: " + (--x));  // Pre-decrement: x=5, prints 5
+        
+        // Relational (Comparison) Operators
+        int num1 = 10, num2 = 20;
+        System.out.println("num1 == num2: " + (num1 == num2));  // false
+        System.out.println("num1 != num2: " + (num1 != num2));  // true
+        System.out.println("num1 > num2: " + (num1 > num2));    // false
+        System.out.println("num1 < num2: " + (num1 < num2));    // true
+        System.out.println("num1 >= num2: " + (num1 >= num2));  // false
+        System.out.println("num1 <= num2: " + (num1 <= num2));  // true
+        
+        // Logical Operators
+        boolean isRaining = true, isWeekend = false;
+        System.out.println("AND (&&): " + (isRaining && isWeekend));  // false
+        System.out.println("OR (||): " + (isRaining || isWeekend));   // true
+        System.out.println("NOT (!): " + (!isRaining));                // false
+        
+        // Short-circuit evaluation
+        int val = 5;
+        if (val > 0 && val++ < 10) {  // val++ only executes if first condition true
+            System.out.println("val is: " + val);  // val becomes 6
+        }
+        
+        // Assignment Operators
+        int result = 10;
+        result += 5;   // result = result + 5  -> 15
+        result -= 3;   // result = result - 3  -> 12
+        result *= 2;   // result = result * 2  -> 24
+        result /= 4;   // result = result / 4  -> 6
+        result %= 4;   // result = result % 4  -> 2
+        System.out.println("Final result: " + result);
+        
+        // Ternary Operator (condition ? valueIfTrue : valueIfFalse)
+        int age = 18;
+        String status = (age >= 18) ? "Adult" : "Minor";
+        System.out.println("Status: " + status);
+        
+        // Bitwise Operators (for integer types)
+        int bitA = 5;  // binary: 0101
+        int bitB = 3;  // binary: 0011
+        System.out.println("Bitwise AND: " + (bitA & bitB));   // 1 (0001)
+        System.out.println("Bitwise OR: " + (bitA | bitB));    // 7 (0111)
+        System.out.println("Bitwise XOR: " + (bitA ^ bitB));   // 6 (0110)
+        System.out.println("Bitwise NOT: " + (~bitA));         // -6
+        System.out.println("Left shift: " + (bitA << 1));      // 10 (1010)
+        System.out.println("Right shift: " + (bitA >> 1));     // 2 (0010)
+    }
+}
