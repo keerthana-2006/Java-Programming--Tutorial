@@ -1,0 +1,47 @@
+public class VariablesDemo {
+    public static void main(String[] args) {
+        
+        // Primitive Data Types
+        
+        // Integer types
+        byte byteVar = 127;        // 8-bit, range: -128 to 127
+        short shortVar = 32767;    // 16-bit, range: -32,768 to 32,767
+        int intVar = 2147483647;   // 32-bit, most common integer type
+        long longVar = 9223372036854775807L; // 64-bit, need 'L' suffix
+        
+        // Floating-point types
+        float floatVar = 3.14f;     // 32-bit, need 'f' suffix
+        double doubleVar = 3.14159; // 64-bit, default for decimals
+        
+        // Character and Boolean
+        char charVar = 'A';          // 16-bit Unicode character
+        boolean boolVar = true;      // true or false
+        
+        // Reference Data Type - String
+        String name = "John Doe";    // String is a class, not primitive
+        
+        // Variable Naming Rules
+        int camelCase = 10;          // camelCase convention
+        int $special = 20;           // Can start with $ or _
+        int _underscore = 30;
+        
+        // Constants - use 'final' keyword
+        final double PI = 3.14159;
+        // PI = 3.14; // ERROR: cannot reassign final variable
+        
+        // Type Casting
+        // Implicit (Widening) - automatic
+        int smallNum = 100;
+        long bigNum = smallNum;      // int to long - automatic
+        
+        // Explicit (Narrowing) - manual casting needed
+        long largeNum = 1000L;
+        int convertedNum = (int) largeNum;  // long to int - explicit cast
+        
+        // var keyword (Java 10+) - local variable type inference
+        var inferredString = "Hello";    // Compiler infers String type
+        var inferredInt = 42;            // Compiler infers int type
+        
+        System.out.println("Variables demo completed!");
+    }
+}
