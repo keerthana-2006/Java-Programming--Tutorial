@@ -1,0 +1,89 @@
+public class ConditionalDemo {
+    public static void main(String[] args) {
+        
+        // if-else statement
+        int number = 10;
+        
+        if (number > 0) {
+            System.out.println("Number is positive");
+        } else if (number < 0) {
+            System.out.println("Number is negative");
+        } else {
+            System.out.println("Number is zero");
+        }
+        
+        // Nested if
+        int age = 25;
+        boolean hasLicense = true;
+        
+        if (age >= 18) {
+            if (hasLicense) {
+                System.out.println("You can drive");
+            } else {
+                System.out.println("Get a license first");
+            }
+        } else {
+            System.out.println("Too young to drive");
+        }
+        
+        // switch statement (traditional)
+        int day = 3;
+        String dayName;
+        
+        switch (day) {
+            case 1:
+                dayName = "Monday";
+                break;
+            case 2:
+                dayName = "Tuesday";
+                break;
+            case 3:
+                dayName = "Wednesday";
+                break;
+            case 4:
+                dayName = "Thursday";
+                break;
+            case 5:
+                dayName = "Friday";
+                break;
+            case 6:
+                dayName = "Saturday";
+                break;
+            case 7:
+                dayName = "Sunday";
+                break;
+            default:
+                dayName = "Invalid day";
+                break;
+        }
+        System.out.println("Day: " + dayName);
+        
+        // Enhanced switch (Java 14+)
+        int month = 4;
+        String season = switch (month) {
+            case 12, 1, 2 -> "Winter";
+            case 3, 4, 5 -> "Spring";
+            case 6, 7, 8 -> "Summer";
+            case 9, 10, 11 -> "Fall";
+            default -> "Invalid month";
+        };
+        System.out.println("Season: " + season);
+        
+        // switch with yield (for complex logic)
+        int score = 85;
+        String grade = switch (score / 10) {
+            case 10, 9 -> {
+                System.out.println("Excellent!");
+                yield "A";
+            }
+            case 8 -> {
+                System.out.println("Good job!");
+                yield "B";
+            }
+            case 7 -> "C";
+            case 6 -> "D";
+            default -> "F";
+        };
+        System.out.println("Grade: " + grade);
+    }
+}
