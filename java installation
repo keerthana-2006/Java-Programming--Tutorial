@@ -1,0 +1,12 @@
+This guide covers the quickest way to install Java (JDK 21 or 23) on Windows and macOS.
+1. Download the JDKOfficial Source: Visit the Oracle Java Downloads page.
+  Select Version: Choose the latest LTS (Long Term Support) version (e.g., JDK 21) or the newest version (e.g., JDK 23).
+  Download: Select your operating system (Windows/macOS) and download the x64 Installer (.exe for Windows, .dmg for Mac).
+2. InstallWindows: Run the .exe file. Click "Next" through the installer.
+  Take note of the installation path (usually C:\Program Files\Java\jdk-...).
+  macOS: Open the .dmg file, double-click the .pkg file, and follow the instructions.
+3. Set Environment Variables (Windows)Search for "Environment Variables" in the Windows search bar and select "Edit the system environment variables".
+Click Environment Variables.Under System Variables, click New, set Name to JAVA_HOME and Value to the path of your JDK installation (e.g., C:\Program Files\Java\jdk-23).
+Find the Path variable, select it, click Edit, then New and add: %JAVA_HOME%\bin.Click OK on all windows to save.4. Verify InstallationOpen your terminal (Command Prompt on Windows, Terminal on Mac) and run the following command:
+    bashjava -version
+If successful, you will see the Java version details (e.g., java version "23...").
