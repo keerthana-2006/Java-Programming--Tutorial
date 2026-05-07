@@ -1,0 +1,75 @@
+public class LoopsDemo {
+    public static void main(String[] args) {
+        
+        // for loop - when you know number of iterations
+        System.out.println("For loop counting 1 to 5:");
+        for (int i = 1; i <= 5; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        
+        // while loop - condition checked before execution
+        System.out.println("\nWhile loop counting down from 5:");
+        int count = 5;
+        while (count > 0) {
+            System.out.print(count + " ");
+            count--;
+        }
+        System.out.println();
+        
+        // do-while loop - executes at least once
+        System.out.println("\nDo-while loop (executes once):");
+        int number = 1;
+        do {
+            System.out.println("Number is: " + number);
+            number++;
+        } while (number < 1);  // condition false, but loop runs once
+        
+        // Enhanced for loop (for-each) - for arrays/collections
+        System.out.println("\nEnhanced for loop:");
+        int[] numbers = {10, 20, 30, 40, 50};
+        for (int num : numbers) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+        
+        // Nested loops
+        System.out.println("\nMultiplication Table (5x5):");
+        for (int i = 1; i <= 5; i++) {
+            for (int j = 1; j <= 5; j++) {
+                System.out.printf("%4d", i * j);
+            }
+            System.out.println();
+        }
+        
+        // break and continue
+        System.out.println("\nBreak example (stop at 5):");
+        for (int i = 1; i <= 10; i++) {
+            if (i == 5) {
+                break;  // exit loop when i equals 5
+            }
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        
+        System.out.println("\nContinue example (skip 5):");
+        for (int i = 1; i <= 10; i++) {
+            if (i == 5) {
+                continue;  // skip printing 5
+            }
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        
+        // Labeled break/continue (for nested loops)
+        outerLoop:
+        for (int i = 1; i <= 3; i++) {
+            for (int j = 1; j <= 3; j++) {
+                if (i == 2 && j == 2) {
+                    break outerLoop;  // breaks outer loop
+                }
+                System.out.println("i=" + i + ", j=" + j);
+            }
+        }
+    }
+}
