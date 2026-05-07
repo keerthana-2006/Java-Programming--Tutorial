@@ -1,0 +1,140 @@
+// Complete example showcasing all 4 OOP pillars
+
+// ABSTRACTION - Abstract class
+abstract class PaymentMethod {
+    protected String holderName;
+    protected double balance;
+    
+    public PaymentMethod(String holderName, double balance) {
+        this.holderName = holderName;
+        this.balance = balance;
+    }
+    
+    public abstract void pay(double amount);
+    public abstract void refund(double amount);
+    
+    public void displayBalance() {
+        System.out.println(holderName + " balance: $" + balance);
+    }
+}
+
+// ENCAPSULATION - Private fields with public methods
+class CreditCard extends PaymentMethod {
+    private String cardNumber;
+    private String expiryDate;
+    private int cvv;
+    private double creditLimit;
+    
+    public CreditCard(String holderName, String cardNumber, String expiryDate, 
+                     int cvv, double creditLimit) {
+        super(holderName, 0);  // Credit card starts with 0 balance (credit)
+        this.cardNumber = cardNumber;
+        this.expiryDate = expiryDate;
+        this.cvv = cvv;
+        this.creditLimit = creditLimit;
+    }
+    
+    // ENCAPSULATION - Controlled access
+    public String getMaskedCardNumber() {
+        return "****-****-****-" + cardNumber.substring(cardNumber.length() - 4);
+    }
+    
+    private boolean validateCard() {
+        // Validation logic (simplified)
+        return cardNumber.length() == 16 && expiryDate.matches("\\d{2}/\\d{2}");
+    }
+    
+    @Override
+    public void pay(double amount) {
+        if (validateCard() && amount <= creditLimit) {
+            creditLimit -= amount;
+            System.out.println("Paid $" + amount + " using Credit Card ending in " 
+                             + getMaskedCardNumber());
+        } else {
+            System.out.println("Payment failed: Insufficient credit or invalid card");
+        }
+    }
+    
+    @Override
+    public void refund(double amount) {
+        creditLimit += amount;
+        System.out.println("Refunded $" + amount + " to credit card");
+    }
+}
+
+// INHERITANCE - Extending PaymentMethod
+class DigitalWallet extends PaymentMethod {
+    private String walletId;
+    private String email;
+    
+    public DigitalWallet(String holderName, String walletId, String email, double balance) {
+        super(holderName, balance);
+        this.walletId = walletId;
+        this.email = email;
+    }
+    
+    @Override
+    public void pay(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            System.out.println("Paid $" + amount + " using Digital Wallet (" + email + ")");
+        } else {
+            System.out.println("Payment failed: Insufficient balance");
+        }
+    }
+    
+    @Override
+    public void refund(double amount) {
+        balance += amount;
+        System.out.println("Refunded $" + amount + " to digital wallet");
+    }
+    
+    public void addFunds(double amount) {
+        balance += amount;
+        System.out.println("Added $" + amount + " to wallet");
+    }
+}
+
+// POLYMORPHISM - Payment processing
+class PaymentProcessor {
+    // Polymorphic method - accepts any PaymentMethod
+    public void processPayment(PaymentMethod paymentMethod, double amount) {
+        System.out.println("\nProcessing payment of $" + amount);
+        paymentMethod.pay(amount);
+        paymentMethod.displayBalance();
+    }
+    
+    public void processRefund(PaymentMethod paymentMethod, double amount) {
+        System.out.println("\nProcessing refund of $" + amount);
+        paymentMethod.refund(amount);
+        paymentMethod.displayBalance();
+    }
+}
+
+// Main class
+public class OOPCompleteDemo {
+    public static void main(String[] args) {
+        System.out.println("=== E-Commerce Payment System ===\n");
+        
+        // Creating payment methods
+        CreditCard card = new CreditCard("John Doe", "1234567890123456", "12/25", 123, 5000);
+        DigitalWallet wallet = new DigitalWallet("Jane Smith", "WALLET123", "jane@email.com", 1000);
+        
+        // Payment processor
+        PaymentProcessor processor = new PaymentProcessor();
+        
+        // POLYMORPHISM in action
+        processor.processPayment(card, 299.99);
+        processor.processPayment(wallet, 49.99);
+        
+        processor.processRefund(card, 50.00);
+        wallet.addFunds(200);
+        processor.processPayment(wallet, 149.99);
+        
+        // ENCAPSULATION - Can't access private fields directly
+        // System.out.println(card.cardNumber); // ERROR: private field
+        
+        // Only accessible through public methods
+        System.out.println("\n" + card.getMaskedCardNumber());  // Shows masked version
+    }
+}
