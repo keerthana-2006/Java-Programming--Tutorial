@@ -1,0 +1,472 @@
+class DoublyLinkedList
+{
+    class Node
+    {
+      int data;
+      Node prev;
+      Node next;
+      public DoublyLinkedList.Node(int data)
+      {
+        this.data=data;
+        this.prev=null;
+        this.next=null;
+      }
+    }
+    public static Node head;
+    public static Node tail;
+    public static int size;
+
+    public static void addFirst(int data)
+    {
+        Node newNode = new Node(data);
+        if(head==null)
+        {
+            head=tail=newNode;
+            size++;
+        }
+        else{
+            head.next=newNode;
+            newNode.prev=head;
+            head=newNode;
+            size++;
+        }
+    }
+    public static void addLast(int data)
+    {
+        Node newNode=new Node(data);
+            if(head==null)
+        {
+            head=tail=newNode;
+            
+        }
+        else{
+            tail.next=newNode;
+            newNode.prev=tail;
+            tail=newNode;}
+            size++;
+        
+    }
+    public static void printNodes()
+    {
+        if(head==null)
+        {
+            System.out.println("no elements in the linked list");
+             return;
+        }
+        Node temp= head;
+        while(temp!=null)
+        {
+            System.out.print(temp.data+"->");
+            temp=temp.next;
+
+        }
+        System.out.print("null");
+
+    
+    }
+    public void insertMiddle(int data,int position){
+        Node newNode = new Node(data);
+        Node temp=head;
+        int i=0;
+        while(i!=position-1)
+        {
+            temp=temp.next;
+            i++;
+        }
+        newNode.next=temp.next;
+        newNode.prev=temp;
+        if(temp.next!=null)
+            temp.next.prev=newNode;
+
+        temp.next=newNode;
+        size++;
+
+    }
+    public static void removeFirst()
+    {
+        if(head==null)
+        {
+            System.out.println("Linked List is empty");
+        }
+        else{
+            head=head.next;
+            head.prev=null;
+            size--;
+        }
+    }
+    public static void removeLast()
+    {
+        if(head==null)
+        {
+            System.out.println("Linked List is empty");
+        }
+        else{
+            tail=tail.prev;
+            tail.next=null;
+            size--;
+        }
+    }
+    public static void reverseList()
+    {
+        Node curr=head;
+        Node prev=null;
+        Node next;
+        while(curr!=null)
+        {
+            next=curr.next;
+            curr.next=prev;
+            curr.prev=next;
+            prev=curr;
+            curr=next;
+        }
+        tail=head;
+        head=prev;
+        
+}
+
+public class LinkedListsConcept {
+    public static class Node{
+        int data;
+        Node next;
+        public Node(int data){
+            this.data=data;
+            this.next=null;
+        }
+    }
+        public static Node head;
+        public static Node tail;
+        public static int size;
+    
+    public void addFirst(int data)
+    {   Node newNode =new Node(data);
+
+        if(head==null)
+        {
+            head=tail=newNode;
+            size++;
+        }
+        else{
+            newNode.next=head;
+            head=newNode;
+            size++;
+        }
+        
+    }
+    public void addLast(int data)
+    {   Node newNode =new Node(data);
+
+        if(head==null)
+        {
+            head=tail=newNode;
+            size++;
+        }
+        else{
+            tail.next=newNode;
+            tail=newNode;
+            size++;
+        }
+
+    }
+    public void printNodes()
+    {
+        if(head==null)
+        {
+            System.out.println("no elements in the linked list");
+             return;
+        }
+        Node temp= head;
+        while(temp!=null)
+        {
+            System.out.print(temp.data+"->");
+            temp=temp.next;
+
+        }
+        System.out.print("null");
+
+    
+    }
+    public void insertMiddle(int data,int position){
+        Node newNode = new Node(data);
+        Node temp=head;
+        int i=0;
+        while(i!=position-1)
+        {
+            temp=temp.next;
+            i++;
+        }
+        newNode.next=temp.next;
+        temp.next=newNode;
+        size++;
+
+    }
+    public int findSize()
+    {
+        Node temp=head;
+        int i=0;
+        while(temp!=null)
+        {   
+            i++;
+            temp=temp.next;
+        }
+        return i;
+    }
+    public void removeFirst()
+    {
+        if(head==null)
+        {
+            System.out.println("Linked List is empty");
+        }
+        else{
+            head=head.next;
+            size--;
+        }
+    }
+    public void removeLast()
+    {
+        if(head==null)
+        {
+            System.out.println("Linked List is empty");
+        }
+        else{
+            Node temp=head;
+            while(temp.next.next!=null)
+            {
+             temp=temp.next;
+            }
+        }
+    }
+    public int iterativeSearch(int key){
+        Node temp=head;
+        int i=0;
+        while(temp!=null)
+        {
+            if(temp.data==key)
+                return i;
+            i++;
+        }
+        return -1;
+
+    }
+    public int helper(Node head,int key)
+    {
+        if(head==null) return -1;
+        if(head.data==key)return 0;
+        int index=helper(head.next,key);
+        if(index==-1)return -1;
+        return index+1;
+    }
+    public int recursiveSearch(int key)
+    {   return helper(head,key);
+        
+    }
+    public void reverseList()
+    {
+        Node prev=null;
+        Node curr=tail=head;
+        Node next;
+        while(curr!=null)
+        {
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+            
+        }
+        head=prev;
+        
+    }
+    public void deleteNodeFromEnd(int index)
+    {
+        int i=0;
+        Node prev=head;
+        int siz=0;
+        Node temp=head;
+        while(temp!=null)
+        {
+            temp=temp.next;
+            siz++;
+        }
+        while(i!=siz-index)
+        {
+            prev=prev.next;
+
+        }
+        prev.next=prev.next.next;
+        
+    }
+    public  boolean palindrome()
+    {
+        Node slow=head;
+        Node fast=head;
+        while(fast!=null && fast.next==null)
+        {
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        Node prev=null;
+        Node curr=slow;
+        Node next;
+        while(curr!=null)
+        {
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        tail=prev;
+        Node left=head;
+        Node right=tail;
+        while(left!=null)
+        {
+            if(left.data!=right.data)
+                return false;
+            left=left.next;
+            right=right.next;
+        }
+        return true;
+
+    }
+    public boolean isCycle()
+    {
+        Node slow =head;
+        Node fast = head;
+        while(fast!=null && fast.next!=null)
+        {
+           slow= slow.next;
+           fast = fast.next.next;
+           if(slow==fast)
+            return true;
+        }
+        return false;
+    }
+    public void removeCycle()
+    {
+        Node slow=head;
+        Node fast=head;
+        boolean cycle=false;
+         while(fast!=null && fast.next!=null)
+        {
+           slow= slow.next;
+           fast = fast.next.next;
+           if(slow==fast)
+           {
+            cycle=true;
+            break;
+           }
+        }
+
+        if(cycle==false) return;
+        //finding meeting point
+         slow=head;
+        Node prev=null;  // last node
+            while(slow!=fast)
+            {   prev=fast;
+                slow=slow.next;
+                fast=fast.next;
+            }
+            // remove cycle
+            prev.next=null;
+        
+    }
+    public Node getMid(Node head)
+    {
+        Node slow=head;
+        Node fast=head.next;
+        while(fast!=null && fast.next!=null)
+        {
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+       return slow;
+    }
+    public static Node merge(Node head1,Node head2)
+    {
+        Node mergedLL=new Node(-1);
+        Node temp=mergedLL;
+        while(head1!=null && head2!=null)
+        {
+            if(head1.data<=head2.data)
+            {
+                temp.next=head1;
+                head1=head1.next;
+                temp=temp.next;
+            }
+            else{
+                temp.next=head2;
+                head2=head2.next;
+                temp=temp.next;
+            }
+        }   
+        while(head1!=null)
+        {
+            temp.next=head1;
+            head1=head1.next;
+            temp=temp.next;
+        }
+        while(head2!=null)
+        {
+            temp.next=head2;
+            head2=head2.next;
+            temp=temp.next;
+        }
+        return mergedLL.next;
+    }
+    public Node mergeSortLL(Node head)
+    { if(head==null || head.next==null) return head;
+      
+      Node mid=getMid(head);
+      Node rightHead=mid.next;
+      mid.next=null;
+      Node newLeft=mergeSortLL(head);
+     Node newRight=mergeSortLL(rightHead);
+        return merge(newLeft,newRight);
+
+    }
+    public static void zigZag()
+    {
+        Node slow=head;
+        Node fast=head.next;
+        while(fast!=null && fast.next!=null)
+        {
+           slow=slow.next;
+           fast=fast.next.next; 
+        }
+        Node mid=slow;
+        // reverse the second half
+        Node curr=mid.next;
+        mid.next=null;
+        Node prev=null;
+        Node next;
+        while(curr!=null)
+        {
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        
+        Node left=head;
+        Node right=prev;
+        Node nextLeft;
+        Node nextRight;
+        while(right!=null && left!=null)
+        {
+        nextLeft=left.next;
+         left.next=right;
+         nextRight=right.next;
+         right.next=nextLeft;
+         left=nextLeft;
+         right=nextRight;
+        }
+    }
+public static void main(String[] args)
+{
+    //LinkedListsConcept ll = new LinkedListsConcept();
+    DoublyLinkedList dll = new DoublyLinkedList();
+    dll.addLast(1);
+    dll.addLast(2);
+    dll.addLast(3);
+    dll.addLast(4);
+    dll.printNodes();
+}
+}
