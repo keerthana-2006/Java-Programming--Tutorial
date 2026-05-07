@@ -1,0 +1,402 @@
+// EXAMPLE 1: ABSTRACT CLASS
+
+// Abstract class - cannot be instantiated
+abstract class Shape {
+    protected String color;
+    
+    public Shape(String color) {
+        this.color = color;
+    }
+    
+    // Abstract methods - no implementation, must be overridden
+    public abstract double calculateArea();
+    public abstract double calculatePerimeter();
+    
+    // Concrete method - has implementation
+    public void displayColor() {
+        System.out.println("Shape color: " + color);
+    }
+    
+    public String getColor() {
+        return color;
+    }
+}
+
+// Concrete implementation 1
+class Circle extends Shape {
+    private double radius;
+    
+    public Circle(String color, double radius) {
+        super(color);
+        this.radius = radius;
+    }
+    
+    @Override
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+    
+    @Override
+    public double calculatePerimeter() {
+        return 2 * Math.PI * radius;
+    }
+    
+    // Circle-specific method
+    public double getDiameter() {
+        return 2 * radius;
+    }
+}
+
+// Concrete implementation 2
+class Rectangle extends Shape {
+    private double length;
+    private double width;
+    
+    public Rectangle(String color, double length, double width) {
+        super(color);
+        this.length = length;
+        this.width = width;
+    }
+    
+    @Override
+    public double calculateArea() {
+        return length * width;
+    }
+    
+    @Override
+    public double calculatePerimeter() {
+        return 2 * (length + width);
+    }
+    
+    public boolean isSquare() {
+        return length == width;
+    }
+}
+
+// Concrete implementation 3
+class Triangle extends Shape {
+    private double side1, side2, side3;
+    
+    public Triangle(String color, double side1, double side2, double side3) {
+        super(color);
+        this.side1 = side1;
+        this.side2 = side2;
+        this.side3 = side3;
+    }
+    
+    @Override
+    public double calculateArea() {
+        // Heron's formula
+        double s = calculatePerimeter() / 2;
+        return Math.sqrt(s * (s - side1) * (s - side2) * (s - side3));
+    }
+    
+    @Override
+    public double calculatePerimeter() {
+        return side1 + side2 + side3;
+    }
+}
+
+// EXAMPLE 2: INTERFACE (100% abstraction)
+
+// Interface 1
+interface Drawable {
+    void draw();  // Abstract method (implicitly public abstract)
+    
+    // Default method (Java 8+) - provides default implementation
+    default void print() {
+        System.out.println("Drawing shape...");
+    }
+    
+    // Static method (Java 8+)
+    static void displayTools() {
+        System.out.println("Drawing tools: pencil, brush, colors");
+    }
+}
+
+// Interface 2
+interface Resizable {
+    void resize(double factor);
+    void resetSize();
+}
+
+// Interface 3
+interface Colorable {
+    void setColor(String color);
+    String getColor();
+}
+
+// Multiple interface implementation
+class ColoredCircle extends Circle implements Drawable, Resizable, Colorable {
+    public ColoredCircle(String color, double radius) {
+        super(color, radius);
+    }
+    
+    @Override
+    public void draw() {
+        System.out.println("Drawing a " + getColor() + " circle with radius " + 
+                          String.format("%.2f", calculateRadius()));
+    }
+    
+    @Override
+    public void resize(double factor) {
+        // Modify radius (assuming Circle has radius access)
+        // For demonstration, we'd need radius to be accessible
+        System.out.println("Resizing circle by factor: " + factor);
+    }
+    
+    @Override
+    public void resetSize() {
+        System.out.println("Resetting circle to original size");
+    }
+    
+    @Override
+    public void setColor(String color) {
+        // Since Shape has color, we can't directly set
+        System.out.println("Setting color to: " + color);
+    }
+    
+    @Override
+    public String getColor() {
+        return super.getColor();
+    }
+    
+    // Helper method for demonstration
+    private double calculateRadius() {
+        // This would need radius access - for demo only
+        return 5.0;
+    }
+}
+
+// EXAMPLE 3: COMPARING ABSTRACT CLASS VS INTERFACE
+
+// Abstract class for Database operations
+abstract class Database {
+    protected String connectionString;
+    
+    public Database(String connectionString) {
+        this.connectionString = connectionString;
+    }
+    
+    // Common method with implementation
+    public void connect() {
+        System.out.println("Connecting to database at: " + connectionString);
+    }
+    
+    // Abstract methods - different for each database
+    public abstract void executeQuery(String query);
+    public abstract void close();
+}
+
+// Concrete database implementations
+class MySQLDatabase extends Database {
+    public MySQLDatabase(String connectionString) {
+        super(connectionString);
+    }
+    
+    @Override
+    public void executeQuery(String query) {
+        System.out.println("MySQL executing: " + query);
+    }
+    
+    @Override
+    public void close() {
+        System.out.println("MySQL connection closed");
+    }
+}
+
+class PostgreSQLDatabase extends Database {
+    public PostgreSQLDatabase(String connectionString) {
+        super(connectionString);
+    }
+    
+    @Override
+    public void executeQuery(String query) {
+        System.out.println("PostgreSQL executing: " + query);
+    }
+    
+    @Override
+    public void close() {
+        System.out.println("PostgreSQL connection closed");
+    }
+}
+
+// Main demonstration
+public class AbstractionDemo {
+    public static void main(String[] args) {
+        
+        // 1. Abstract Class Demo
+        System.out.println("=== Abstract Class Demo ===");
+        
+        // Shape shape = new Shape("Red"); // ERROR: Cannot instantiate abstract class
+        
+        Shape[] shapes = {
+            new Circle("Red", 5.0),
+            new Rectangle("Blue", 10.0, 5.0),
+            new Triangle("Green", 3.0, 4.0, 5.0)
+        };
+        
+        for (Shape shape : shapes) {
+            System.out.println("\nShape: " + shape.getClass().getSimpleName());
+            System.out.println("Color: " + shape.getColor());
+            System.out.printf("Area: %.2f\n", shape.calculateArea());
+            System.out.printf("Perimeter: %.2f\n", shape.calculatePerimeter());
+            
+            // Access specific methods after type checking
+            if (shape instanceof Rectangle) {
+                Rectangle rect = (Rectangle) shape;
+                System.out.println("Is square? " + rect.isSquare());
+            }
+        }
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        // 2. Interface Demo
+        System.out.println("=== Interface Demo ===");
+        
+        ColoredCircle coloredCircle = new ColoredCircle("Purple", 7.5);
+        coloredCircle.draw();
+        coloredCircle.resize(1.5);
+        coloredCircle.print();  // Default method from Drawable
+        
+        Drawable.displayTools();  // Static method call
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        // 3. Practical Use: Database Abstraction
+        System.out.println("=== Database Abstraction Demo ===");
+        
+        Database db1 = new MySQLDatabase("localhost:3306/mydb");
+        Database db2 = new PostgreSQLDatabase("localhost:5432/mydb");
+        
+        processDatabase(db1, "SELECT * FROM users");
+        processDatabase(db2, "SELECT * FROM products");
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        // 4. Multiple Interfaces example
+        System.out.println("=== Multiple Interfaces Demo ===");
+        SmartDevice phone = new SmartPhone("iPhone", "iOS");
+        phone.powerOn();
+        phone.connectToWiFi("HomeNetwork");
+        phone.makeCall("123-456-7890");
+        phone.takePhoto();
+        
+        // Interface reference
+        Connectable connectable = phone;
+        connectable.connectToWiFi("OfficeNetwork");
+        
+        Photographable photographable = phone;
+        photographable.takePhoto();
+    }
+    
+    // Method working with abstraction - doesn't care about concrete database type
+    public static void processDatabase(Database db, String query) {
+        db.connect();
+        db.executeQuery(query);
+        db.close();
+    }
+}
+
+// Additional interface example - Smart Device
+interface Powerable {
+    void powerOn();
+    void powerOff();
+    boolean isPoweredOn();
+}
+
+interface Connectable {
+    void connectToWiFi(String network);
+    void disconnectWiFi();
+    boolean isConnected();
+}
+
+interface Photographable {
+    void takePhoto();
+    void recordVideo();
+}
+
+interface Communicable {
+    void makeCall(String number);
+    void sendMessage(String number, String message);
+}
+
+// Class implementing multiple interfaces
+class SmartPhone implements Powerable, Connectable, Photographable, Communicable {
+    private String model;
+    private String os;
+    private boolean poweredOn = false;
+    private boolean connected = false;
+    
+    public SmartPhone(String model, String os) {
+        this.model = model;
+        this.os = os;
+    }
+    
+    @Override
+    public void powerOn() {
+        poweredOn = true;
+        System.out.println(model + " powered on");
+    }
+    
+    @Override
+    public void powerOff() {
+        poweredOn = false;
+        connected = false;
+        System.out.println(model + " powered off");
+    }
+    
+    @Override
+    public boolean isPoweredOn() {
+        return poweredOn;
+    }
+    
+    @Override
+    public void connectToWiFi(String network) {
+        if (poweredOn) {
+            connected = true;
+            System.out.println("Connected to WiFi: " + network);
+        } else {
+            System.out.println("Phone is off. Please power on first.");
+        }
+    }
+    
+    @Override
+    public void disconnectWiFi() {
+        connected = false;
+        System.out.println("Disconnected from WiFi");
+    }
+    
+    @Override
+    public boolean isConnected() {
+        return connected;
+    }
+    
+    @Override
+    public void takePhoto() {
+        System.out.println("📸 Photo taken with " + model);
+    }
+    
+    @Override
+    public void recordVideo() {
+        System.out.println("📹 Recording video with " + model);
+    }
+    
+    @Override
+    public void makeCall(String number) {
+        if (poweredOn) {
+            System.out.println("📞 Calling " + number + "...");
+        } else {
+            System.out.println("Phone is off");
+        }
+    }
+    
+    @Override
+    public void sendMessage(String number, String message) {
+        if (poweredOn) {
+            System.out.println("💬 Sending message to " + number + ": " + message);
+        } else {
+            System.out.println("Phone is off");
+        }
+    }
+}
