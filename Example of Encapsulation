@@ -1,0 +1,166 @@
+// Example 1: Basic Encapsulation
+class BankAccount {
+    // Private data members - hidden from outside
+    private String accountNumber;
+    private String accountHolder;
+    private double balance;
+    private String pin;
+    
+    // Constructor
+    public BankAccount(String accountNumber, String accountHolder, double initialBalance, String pin) {
+        this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
+        this.balance = initialBalance;
+        this.pin = pin;
+    }
+    
+    // Public getter methods - controlled access
+    public String getAccountNumber() {
+        return accountNumber;  // Read-only access
+    }
+    
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+    
+    public double getBalance() {
+        return balance;  // Can see balance but not modify directly
+    }
+    
+    // Public setter methods with validation
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: $" + amount);
+        } else {
+            System.out.println("Invalid deposit amount");
+        }
+    }
+    
+    public void withdraw(double amount, String enteredPin) {
+        if (validatePin(enteredPin)) {  // Validation logic
+            if (amount > 0 && amount <= balance) {
+                balance -= amount;
+                System.out.println("Withdrawn: $" + amount);
+            } else {
+                System.out.println("Insufficient balance");
+            }
+        } else {
+            System.out.println("Invalid PIN");
+        }
+    }
+    
+    // Private helper method - hidden implementation detail
+    private boolean validatePin(String enteredPin) {
+        return this.pin.equals(enteredPin);
+    }
+}
+
+// Example 2: Encapsulation with Data Validation
+class Employee {
+    private String name;
+    private int age;
+    private double salary;
+    private String email;
+    
+    // Constructor
+    public Employee(String name, int age, double salary, String email) {
+        setName(name);
+        setAge(age);
+        setSalary(salary);
+        setEmail(email);
+    }
+    
+    // Getters with formatting
+    public String getName() {
+        return name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public double getSalary() {
+        return salary;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    // Setters with validation logic
+    public void setName(String name) {
+        if (name != null && name.length() >= 2) {
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Name must be at least 2 characters");
+        }
+    }
+    
+    public void setAge(int age) {
+        if (age >= 18 && age <= 65) {
+            this.age = age;
+        } else {
+            throw new IllegalArgumentException("Age must be between 18 and 65");
+        }
+    }
+    
+    public void setSalary(double salary) {
+        if (salary >= 0) {
+            this.salary = salary;
+        } else {
+            throw new IllegalArgumentException("Salary cannot be negative");
+        }
+    }
+    
+    public void setEmail(String email) {
+        if (email != null && email.contains("@") && email.contains(".")) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+    }
+    
+    // Business logic method
+    public void giveRaise(double percentage) {
+        if (percentage > 0) {
+            salary += salary * (percentage / 100);
+            System.out.println(name + " received a " + percentage + "% raise. New salary: $" + salary);
+        }
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Employee{name='%s', age=%d, salary=$%.2f, email='%s'}", 
+                           name, age, salary, email);
+    }
+}
+
+// Usage Demo
+public class EncapsulationDemo {
+    public static void main(String[] args) {
+        // Creating object with encapsulation
+        BankAccount account = new BankAccount("ACC123", "John Doe", 1000.00, "1234");
+        
+        // Can only access through public methods
+        System.out.println("Account Holder: " + account.getAccountHolder());
+        System.out.println("Balance: $" + account.getBalance());
+        
+        account.deposit(500);
+        account.withdraw(200, "1234");
+        
+        // Cannot directly modify balance
+        // account.balance = 9999;  // ERROR: balance is private
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        // Employee with validation
+        Employee emp = new Employee("Alice Johnson", 30, 50000, "alice@company.com");
+        System.out.println(emp);
+        
+        emp.giveRaise(10);  // 10% raise
+        emp.setAge(35);      // Valid age
+        // emp.setAge(15);    // Would throw exception - too young
+        System.out.println(emp);
+    }
+}
