@@ -1,0 +1,108 @@
+Object-Oriented Programming (OOP) in Java
+What is OOP?
+Object-Oriented Programming is a programming paradigm that organizes code around objects (which contain data and methods) rather than functions and logic. Java is fundamentally an OOP language.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+The Four Pillars of OOP:
+1. ENCAPSULATION
+Concept
+Binding data (variables) and methods (functions) together in a single unit (class), while hiding internal details from outside access.
+
+Key Points:
+-Protects data from unauthorized access
+-Achieved through access modifiers (private, public, protected)
+-Exposes only necessary functionality through public methods
+
+Real-World Example:
+Think of a bank account - you can deposit/withdraw money (public methods) but cannot directly change the balance (private data).
+
+Benefits of Encapsulation
+✅ Data Protection - Prevents unauthorized access
+✅ Flexibility - Can change internal implementation without affecting external code
+✅ Maintainability - Code is modular and easier to debug
+✅ Validation - Can add validation logic in setters
+-----------------------------------------------------------------------------------------------------------------------------------------------
+2. INHERITANCE
+Concept
+Creating new classes (child/derived) based on existing classes (parent/base), reusing and extending their functionality.
+
+Key Points
+-Promotes code reusability
+-Establishes "IS-A" relationship
+-Java supports single inheritance (one parent) but multiple interface inheritance
+-Use extends keyword
+
+Real-World Example
+Vehicle → Car → ElectricCar - Each level inherits properties from above and adds its own.
+
+Types of Inheritance in Java
+
+Single Inheritance- 	One parent, one child	✅ Yes
+Multi-level Inheritance-	Grandparent → Parent → Child	✅ Yes
+Hierarchical Inheritance-  One parent, multiple children	✅ Yes
+Multiple	Inheritance-   Multiple parents	❌ No (We cannot implement multiple Inheritance through classes but can  via interfaces)
+Hybrid	Inheritance-   Combination of multiple	❌ No (We cannot implement hybrid Inheritance through classes but via interfaces)
+
+Important Keywords:
+super keyword:
+-Access parent class constructor: super()
+-Access parent class method: super.methodName()
+-Access parent class variable: super.variableName
+protected access modifier:
+-Accessible within same package and subclasses (even in different packages)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. POLYMORPHISM
+Concept
+The ability of an object to take many forms. The same method name can have different implementations based on the object type.
+
+Key Points:
+-Compile-time (Static) Polymorphism - Method overloading
+-Runtime (Dynamic) Polymorphism - Method overriding
+-Allows writing more flexible and reusable code
+
+Real-World Example:
+A "play()" method - a piano plays music, a football plays sport, a theater plays drama - same name, different actions.
+
+Types of Polymorphism Summary:
+Type	         |      Also Known As	    |         Achieved By	          |        Compile/Runtime   |           	Example
+-------------------------------------------------------------------------------------------------------------------------------------------
+Compile-time	 |     Static Binding	    |        Method Overloading	    |       Compile time	     |     add(int,int) vs add(double,double)
+Runtime        |    Dynamic Binding     |       Method Overriding       |        Runtime	Animal   |      a = new Dog(); a.sound();
+
+Method Overloading vs Overriding
+Feature	              |        Overloading	               |           Overriding
+---------------------------------------------------------------------------------------------------------
+Relationship	        |       Same class	                 |        Inheritance
+Method name	          |        Same	                       |         Same
+Parameters	          |        Must differ                 |         	Must be same
+Return type	          |        Can differ	                 |         Must be same or covariant
+Access modifier	      |        Can be different	           |         Cannot be more restrictive
+Exception	            |       Can throw different	         |         Cannot throw broader
+Binding	              |        Compile-time	               |         Runtime
+Keyword	              |        None	                       |         @Override (annotation)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+4. ABSTRACTION
+Concept
+Hiding implementation details and showing only essential features to the user. It focuses on WHAT an object does rather than HOW it does it.
+
+Key Points:
+-Achieved through abstract classes and interfaces
+-Reduces complexity by hiding unnecessary details
+-Provides a template/contract for subclasses
+
+Real-World Example:
+A car's steering wheel - you know turning it left makes the car go left (WHAT), but you don't need to know the mechanical details (HOW).
+
+Abstract Class vs Interface:
+Feature	                   |       Abstract Class	                          |  Interface (Java 8+)
+-------------------------------------------------------------------------------------------------------------------------------------
+  Keyword                  |        	abstract	                            |         interface
+  Instantiation            |        	Cannot be instantiated	              |          Cannot be instantiated
+  Multiple inheritance     |        	No (single inheritance)	              |          Yes (multiple interfaces)
+Instance variables	       |         Yes	                                  |          No (only static final)
+Constructors	             |         Yes	                                  |          No
+Access modifiers	         |         All (private, protected, public)	      |        Only public (implicitly)
+Method implementation	     |       Can have both abstract and concrete	    |      Abstract, default, static methods
+When to use	               |       Common base with shared code	            |    Contract/capability definition
+Performance	               |       Faster (direct inheritance)	            |      Slightly slower (indirection)
