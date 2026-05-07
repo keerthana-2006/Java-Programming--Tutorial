@@ -1,0 +1,219 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+
+
+public class ArrayListsConcept {
+    public static boolean pairSum1Brute(ArrayList<Integer> list,int target)
+    {   
+        for(int i=0;i<list.size();i++)
+        {
+                for(int j=i+1;j<list.size();j++)
+                {
+                    if(list.get(i)+list.get(j)==target)
+                        return true;
+                
+                }
+        }
+        return false;
+    }
+
+    public static boolean pairSum1Pointer(ArrayList<Integer> list,int target)
+    {
+        int leftPointer=0;
+        int rightPointer=list.size()-1;
+        while(leftPointer<rightPointer)
+        {
+            if(list.get(leftPointer)+list.get(rightPointer)==target)
+            {
+                return true;
+            }
+            if(list.get(leftPointer)+list.get(rightPointer)>target && list.get(leftPointer)<list.get(rightPointer))
+                rightPointer--;
+            else
+                leftPointer++;
+        }
+        return false;
+    }
+
+    public static boolean pairSum2Pointer(ArrayList<Integer> list,int target)
+    {   for(int i=0;i<list.size()-1;i++)
+            {
+                    if(list.get(i)<list.get(i+1))
+                        break;
+            }
+        int leftPointer=i;
+        int rightPointer=i+1;
+        int n=list.size();
+        while(leftPointer!=rightPointer)
+        {
+            if(list.get(leftPointer)+list.get(rightPointer)==target)
+            {
+                return true;
+            }
+            if(list.get(leftPointer)+list.get(rightPointer)>target)
+                rightPointer=(n+rightPointer-1)%n;
+            else
+                leftPointer=(leftPointer+1)%n;
+        }
+        return false;
+    }
+    public static void main(String[] args){
+        creation of ArrayList
+        ArrayList<Integer> list=new ArrayList<>();
+        
+        ArrayList operations
+        list.add(1);
+        list.add(3);
+        list.add(5);
+        list.add(1,9); //inserting 9 at index 1
+        System.out.println(list);
+
+        list.remove(2);
+        System.out.println(list);
+
+        int element=list.get(2);
+        System.out.println(element);
+
+        list.add(10);
+        list.add(20);
+
+        list.set(1,16);
+        System.out.println(list);
+
+        list.contains(10);
+        System.out.println(list); //true
+        
+        //size() to find the size of the ArrayList
+        int length=list.size();
+
+        Accessing the elements through get()
+        for(int i=0;i<list.size();i++)
+        {System.out.println(list.get(i));}
+
+        sorting the ArrayList through sort()
+        Collections.sort(list);              //ascending order
+        System.out.println(list);
+
+        Collections.sort(list,Collections.reverseOrder()); //descending order
+        System.out.println(list);
+
+        finding max element
+        int maximum=Integer.MIN_VALUE;
+        1.using max()
+        maximum=Math.max(list,maximum);
+        System.out.println(maximum);
+
+        2.using manual logic
+        for(int i=0;i<list.size();i++)
+        {if(maximum<list.get(i))
+           maximum=list.get(i);
+        }
+        System.out.println(maximum);
+
+        list.add(30);
+        list.add(40);
+
+
+        //swap two numbers
+        int index1=0;
+        int index2=3;
+        int temp=list.get(index1);
+        list.set(index1)=list.get(index2);
+        list.set(index2)=temp;
+        System.out.println(list);
+
+        Multi-Dimensional ArrayList
+        ArrayList<ArrayList<Integer>> matrix=new ArrayList<>();
+        ArrayList<Integer>list1=new ArrayList<>();
+        ArrayList<Integer>list2=new ArrayList<>();
+        for(int i=1;i<=5;i++)
+        {list1.add(i*1);
+        list2.add(i*2);
+        }
+        matrix.add(list1);
+        matrix.add(list2);
+        System.out.println(matrix);
+
+        Container with most water using brute force
+        ArrayList<Integer> container=new ArrayList<>();
+        container.add(7);
+        container.add(8);
+        container.add(9);
+        container.add(10);
+        container.add(2);
+        container.add(4);
+        container.add(9);
+        container.add(9);
+        int maxWater=0;
+        for(int i=0;i<container.size();i++)
+        {
+            for(int j=i+1;j<container.size();j++)
+            {
+                int height=Math.min(container.get(i),container.get(j));
+                int width=j-i;
+                int area=height*width;
+                maxWater=Math.max(maxWater,area);
+            }
+        }
+        System.out.println(maxWater);
+        
+        //Container with most water using 2 pointer approach
+        ArrayList<Integer> container=new ArrayList<>();
+        container.add(7);
+        container.add(8);
+        container.add(9);
+        container.add(10);
+        container.add(2);
+        container.add(4);
+        container.add(9);
+        container.add(9);
+        int maxWater=0;
+        int leftPointer=0;
+        int rightPointer=container.size()-1;
+        while(leftPointer<rightPointer)
+        {
+            //calculate water area
+            int width=rightPointer-leftPointer;
+            int height=Math.min(container.get(leftPointer),container.get(rightPointer));
+            int area=height*width;
+            maxWater=Math.max(maxWater,area);
+            if(leftPointer<rightPointer)
+                leftPointer++;
+            else rightPointer--;
+            
+        }
+        System.out.println(maxWater);
+
+        //pair sum1 brute force and pointer approach
+
+
+        ArrayList<Integer> container=new ArrayList<>();
+        container.add(7);
+        container.add(8);
+        container.add(9);
+        container.add(10);
+        container.add(2);
+        container.add(4);
+        container.add(9);
+        container.add(9);
+        //System.out.println(pairSum1Brute(container));
+        System.out.println(pairSum1Pointer(container,13));
+      
+        //pairSum2-roatated and sorted array 2 pointer approarch 
+
+        ArrayList<Integer> container=new ArrayList<>();
+        container.add(12);
+        container.add(15);
+        container.add(6);
+        container.add(7);
+        container.add(8);
+        container.add(9);
+        container.add(10);
+        container.add(11);
+        System.out.println(pairSum2Pointer(container,13));
+
+        
+
+    }
+}
