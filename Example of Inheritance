@@ -1,0 +1,179 @@
+// Level 1: Base class (Parent)
+class Vehicle {
+    protected String brand;
+    protected String model;
+    protected int year;
+    protected double price;
+    
+    // Constructor
+    public Vehicle(String brand, String model, int year, double price) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.price = price;
+    }
+    
+    // Methods to be inherited
+    public void start() {
+        System.out.println(brand + " " + model + " is starting...");
+    }
+    
+    public void stop() {
+        System.out.println(brand + " " + model + " is stopping...");
+    }
+    
+    public void displayInfo() {
+        System.out.println("Brand: " + brand);
+        System.out.println("Model: " + model);
+        System.out.println("Year: " + year);
+        System.out.println("Price: $" + price);
+    }
+    
+    public double calculateTax() {
+        return price * 0.10;  // 10% tax
+    }
+}
+
+// Level 2: Single Inheritance
+class Car extends Vehicle {
+    protected int numberOfDoors;
+    protected String fuelType;
+    
+    public Car(String brand, String model, int year, double price, 
+               int numberOfDoors, String fuelType) {
+        super(brand, model, year, price);  // Call parent constructor
+        this.numberOfDoors = numberOfDoors;
+        this.fuelType = fuelType;
+    }
+    
+    // Method overriding - providing specific implementation
+    @Override
+    public void start() {
+        System.out.println(brand + " " + model + " car engine starts with a roar!");
+    }
+    
+    // New method specific to Car
+    public void openTrunk() {
+        System.out.println("Trunk opened");
+    }
+    
+    @Override
+    public double calculateTax() {
+        return super.calculateTax() + 500;  // Car has additional $500 tax
+    }
+    
+    @Override
+    public void displayInfo() {
+        super.displayInfo();  // Call parent method
+        System.out.println("Doors: " + numberOfDoors);
+        System.out.println("Fuel Type: " + fuelType);
+    }
+}
+
+// Level 3: Multi-level Inheritance
+class ElectricCar extends Car {
+    private int batteryCapacity;  // in kWh
+    private int range;            // in km
+    
+    public ElectricCar(String brand, String model, int year, double price,
+                      int numberOfDoors, int batteryCapacity, int range) {
+        super(brand, model, year, price, numberOfDoors, "Electric");
+        this.batteryCapacity = batteryCapacity;
+        this.range = range;
+    }
+    
+    @Override
+    public void start() {
+        System.out.println(brand + " " + model + " electric car starts silently!");
+    }
+    
+    // New methods
+    public void chargeBattery() {
+        System.out.println("Charging battery...");
+    }
+    
+    public void displayRange() {
+        System.out.println("Range: " + range + " km");
+    }
+    
+    @Override
+    public double calculateTax() {
+        // Electric cars have tax exemption
+        return super.calculateTax() * 0.5;  // 50% discount
+    }
+    
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Battery: " + batteryCapacity + " kWh");
+        System.out.println("Range: " + range + " km");
+    }
+}
+
+// Another branch: Hierarchical Inheritance
+class Motorcycle extends Vehicle {
+    private boolean hasSidecar;
+    
+    public Motorcycle(String brand, String model, int year, double price, boolean hasSidecar) {
+        super(brand, model, year, price);
+        this.hasSidecar = hasSidecar;
+    }
+    
+    @Override
+    public void start() {
+        System.out.println(brand + " " + model + " motorcycle engine revs!");
+    }
+    
+    public void wheelie() {
+        System.out.println("Doing a wheelie!");
+    }
+    
+    @Override
+    public double calculateTax() {
+        return super.calculateTax() + 200;
+    }
+}
+
+// Demonstration
+public class InheritanceDemo {
+    public static void main(String[] args) {
+        System.out.println("=== Vehicle Demo ===\n");
+        
+        // Base class object
+        Vehicle genericVehicle = new Vehicle("Generic", "V1", 2020, 20000);
+        genericVehicle.start();
+        genericVehicle.displayInfo();
+        System.out.println("Tax: $" + genericVehicle.calculateTax());
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        // Car object
+        Car toyota = new Car("Toyota", "Camry", 2022, 35000, 4, "Petrol");
+        toyota.start();
+        toyota.displayInfo();
+        toyota.openTrunk();
+        System.out.println("Tax: $" + toyota.calculateTax());
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        // ElectricCar object - multi-level inheritance
+        ElectricCar tesla = new ElectricCar("Tesla", "Model 3", 2023, 55000, 4, 75, 500);
+        tesla.start();
+        tesla.displayInfo();
+        tesla.openTrunk();      // Inherited from Car
+        tesla.chargeBattery();  // ElectricCar specific
+        System.out.println("Tax: $" + tesla.calculateTax());
+        
+        System.out.println("\n" + "=".repeat(50) + "\n");
+        
+        // Motorcycle - different branch
+        Motorcycle harley = new Motorcycle("Harley", "Street 750", 2021, 12000, false);
+        harley.start();
+        harley.wheelie();
+        System.out.println("Tax: $" + harley.calculateTax());
+        
+        // Demonstrating 'super' keyword usage
+        System.out.println("\n=== Super Keyword Demo ===");
+        System.out.println("Tesla's parent class: " + tesla.getClass().getSuperclass().getSimpleName());
+    }
+}
