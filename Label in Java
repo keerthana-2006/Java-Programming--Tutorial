@@ -1,0 +1,37 @@
+public class LabelDemo {
+    public static void main(String[] args) {
+        Frame frame = new Frame("Label Demo");
+        frame.setLayout(new FlowLayout());
+        
+        // Different label constructors
+        Label label1 = new Label();                    // Empty label
+        Label label2 = new Label("Simple Label");      // With text
+        Label label3 = new Label("Centered Label", Label.CENTER);
+        Label label4 = new Label("Right Aligned", Label.RIGHT);
+        
+        // Setting properties
+        label1.setText("Updated Text");
+        label1.setAlignment(Label.CENTER);
+        
+        // Changing font and color
+        Font bigFont = new Font("Arial", Font.BOLD, 20);
+        label2.setFont(bigFont);
+        label2.setForeground(Color.BLUE);
+        label2.setBackground(Color.YELLOW);
+        
+        // Adding to frame
+        frame.add(label1);
+        frame.add(label2);
+        frame.add(label3);
+        frame.add(label4);
+        
+        frame.setSize(400, 300);
+        frame.setVisible(true);
+        
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+}
