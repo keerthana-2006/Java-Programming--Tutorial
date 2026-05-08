@@ -1,0 +1,45 @@
+public class ButtonDemo {
+    public static void main(String[] args) {
+        Frame frame = new Frame("Button Demo");
+        frame.setLayout(new FlowLayout());
+        
+        // Creating buttons
+        Button btn1 = new Button("Click Me");
+        Button btn2 = new Button("Submit");
+        Button btn3 = new Button("Cancel");
+        
+        // Customizing buttons
+        btn1.setLabel("New Label");  // Change text
+        btn1.setBackground(Color.CYAN);
+        btn1.setForeground(Color.RED);
+        
+        Font btnFont = new Font("Arial", Font.BOLD, 14);
+        btn1.setFont(btnFont);
+        
+        // Disabling button
+        btn3.setEnabled(false);
+        
+        // Adding action listener
+        btn1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Button 1 clicked!");
+                btn1.setLabel("Clicked!");
+            }
+        });
+        
+        btn2.addActionListener(e -> System.out.println("Form submitted!"));
+        
+        frame.add(btn1);
+        frame.add(btn2);
+        frame.add(btn3);
+        
+        frame.setSize(400, 200);
+        frame.setVisible(true);
+        
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+}
