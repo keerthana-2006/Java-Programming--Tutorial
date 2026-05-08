@@ -1,0 +1,81 @@
+public class CheckboxDemo {
+    public static void main(String[] args) {
+        Frame frame = new Frame("Checkbox Demo");
+        frame.setLayout(new FlowLayout());
+        
+        // Individual checkboxes
+        Checkbox chkJava = new Checkbox("Java");
+        Checkbox chkPython = new Checkbox("Python");
+        Checkbox chkCpp = new Checkbox("C++");
+        
+        // Checkbox with custom state
+        Checkbox chkDefaultTrue = new Checkbox("Default True", true);
+        
+        // CheckboxGroup for radio buttons (mutually exclusive)
+        CheckboxGroup genderGroup = new CheckboxGroup();
+        Checkbox radioMale = new Checkbox("Male", genderGroup, true);
+        Checkbox radioFemale = new Checkbox("Female", genderGroup, false);
+        Checkbox radioOther = new Checkbox("Other", genderGroup, false);
+        
+        // Another radio group
+        CheckboxGroup paymentGroup = new CheckboxGroup();
+        Checkbox paymentCredit = new Checkbox("Credit Card", paymentGroup, true);
+        Checkbox paymentDebit = new Checkbox("Debit Card", paymentGroup, false);
+        Checkbox paymentPaypal = new Checkbox("PayPal", paymentGroup, false);
+        
+        // Item listener for checkboxes
+        chkJava.addItemListener(e -> {
+            System.out.println("Java checkbox: " + chkJava.getState());
+        });
+        
+        // Item listener for radio buttons
+        radioMale.addItemListener(e -> {
+            if (radioMale.getState()) {
+                System.out.println("Selected: Male");
+            }
+        });
+        
+        // Adding labels and components
+        Label skillsLabel = new Label("Programming Skills:");
+        Label genderLabel = new Label("Gender:");
+        Label paymentLabel = new Label("Payment Method:");
+        
+        frame.add(skillsLabel);
+        frame.add(chkJava);
+        frame.add(chkPython);
+        frame.add(chkCpp);
+        frame.add(chkDefaultTrue);
+        
+        frame.add(genderLabel);
+        frame.add(radioMale);
+        frame.add(radioFemale);
+        frame.add(radioOther);
+        
+        frame.add(paymentLabel);
+        frame.add(paymentCredit);
+        frame.add(paymentDebit);
+        frame.add(paymentPaypal);
+        
+        // Button to show selected values
+        Button showBtn = new Button("Show Selection");
+        showBtn.addActionListener(e -> {
+            System.out.println("\n=== Selected Values ===");
+            System.out.println("Java: " + chkJava.getState());
+            System.out.println("Python: " + chkPython.getState());
+            System.out.println("C++: " + chkCpp.getState());
+            System.out.println("Gender: " + genderGroup.getSelectedCheckbox().getLabel());
+            System.out.println("Payment: " + paymentGroup.getSelectedCheckbox().getLabel());
+        });
+        
+        frame.add(showBtn);
+        
+        frame.setSize(300, 400);
+        frame.setVisible(true);
+        
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+}
