@@ -1,0 +1,73 @@
+public class TextComponentsDemo {
+    public static void main(String[] args) {
+        Frame frame = new Frame("Text Components Demo");
+        frame.setLayout(new FlowLayout());
+        
+        // TextField - Single line input
+        TextField nameField = new TextField();              // Empty
+        TextField emailField = new TextField(20);           // With columns
+        TextField passwordField = new TextField("Password", 15);
+        
+        // TextField properties
+        nameField.setColumns(15);
+        nameField.setText("Enter your name");
+        nameField.setEchoChar('*');  // For password fields
+        passwordField.setEchoChar('*');
+        
+        // TextField with background and foreground
+        nameField.setBackground(Color.LIGHT_GRAY);
+        nameField.setForeground(Color.BLUE);
+        
+        // TextArea - Multi-line input
+        TextArea addressArea = new TextArea();               // Empty
+        TextArea bioArea = new TextArea(5, 30);              // Rows x Columns
+        TextArea commentsArea = new TextArea("Enter comments here", 4, 40);
+        
+        // TextArea properties
+        addressArea.setRows(3);
+        addressArea.setColumns(30);
+        addressArea.setText("123 Main St\nCity, State 12345");
+        addressArea.setEditable(true);
+        
+        bioArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        
+        // Adding labels for clarity
+        Label nameLabel = new Label("Name:");
+        Label emailLabel = new Label("Email:");
+        Label passLabel = new Label("Password:");
+        Label addressLabel = new Label("Address:");
+        Label bioLabel = new Label("Bio:");
+        
+        frame.add(nameLabel);
+        frame.add(nameField);
+        frame.add(emailLabel);
+        frame.add(emailField);
+        frame.add(passLabel);
+        frame.add(passwordField);
+        frame.add(addressLabel);
+        frame.add(addressArea);
+        frame.add(bioLabel);
+        frame.add(bioArea);
+        
+        // Button to process input
+        Button submitBtn = new Button("Submit");
+        submitBtn.addActionListener(e -> {
+            System.out.println("Name: " + nameField.getText());
+            System.out.println("Email: " + emailField.getText());
+            System.out.println("Password: " + passwordField.getText());
+            System.out.println("Address: " + addressArea.getText());
+            System.out.println("Bio: " + bioArea.getText());
+        });
+        
+        frame.add(submitBtn);
+        
+        frame.setSize(400, 500);
+        frame.setVisible(true);
+        
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+}
