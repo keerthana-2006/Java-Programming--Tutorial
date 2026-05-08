@@ -1,0 +1,33 @@
+1. Introduction to AWT
+What is AWT?
+AWT (Abstract Window Toolkit) is Java's original platform-dependent windowing, graphics, and user-interface widget toolkit.
+
+Key Characteristics:
+1.Platform-dependent - Uses native OS components
+2.Heavyweight components - Each component has a native peer
+3.Part of Java Foundation Classes (JFC)
+4.Simpler but more limited than Swing
+
+2. AWT Components:
+Component Hierarchy
+text
+Component
+├── Button
+├── Canvas
+├── Checkbox
+├── Choice
+├── Container
+│   ├── Panel
+│   ├── Window
+│   │   ├── Frame
+│   │   └── Dialog
+├── Label
+├── List
+├── Scrollbar
+└── TextComponent
+    ├── TextField
+    └── TextArea
+
+3. Layout Managers:
+Layout managers arrange components in containers. AWT provides several layout managers.
+
