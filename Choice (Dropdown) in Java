@@ -1,0 +1,70 @@
+public class ChoiceDemo {
+    public static void main(String[] args) {
+        Frame frame = new Frame("Choice Demo");
+        frame.setLayout(new FlowLayout());
+        
+        // Creating choice (dropdown)
+        Choice countryChoice = new Choice();
+        
+        // Adding items
+        countryChoice.add("Select Country");
+        countryChoice.add("United States");
+        countryChoice.add("Canada");
+        countryChoice.add("United Kingdom");
+        countryChoice.add("Australia");
+        countryChoice.add("India");
+        countryChoice.add("Germany");
+        
+        // Setting selected item
+        countryChoice.select("India");
+        
+        // Getting selected item
+        countryChoice.addItemListener(e -> {
+            String selected = countryChoice.getSelectedItem();
+            int index = countryChoice.getSelectedIndex();
+            System.out.println("Selected: " + selected + " at index " + index);
+        });
+        
+        // Creating another choice
+        Choice cityChoice = new Choice();
+        cityChoice.add("Select City");
+        cityChoice.add("New York");
+        cityChoice.add("Los Angeles");
+        cityChoice.add("Chicago");
+        cityChoice.add("Houston");
+        
+        // Customizing choice
+        cityChoice.setBackground(Color.CYAN);
+        cityChoice.setFont(new Font("Arial", Font.BOLD, 12));
+        
+        // Adding labels
+        Label countryLabel = new Label("Country:");
+        Label cityLabel = new Label("City:");
+        
+        frame.add(countryLabel);
+        frame.add(countryChoice);
+        frame.add(cityLabel);
+        frame.add(cityChoice);
+        
+        // Button to show selection
+        Button showBtn = new Button("Show Selection");
+        showBtn.addActionListener(e -> {
+            System.out.println("\n=== Selection ===");
+            System.out.println("Country: " + countryChoice.getSelectedItem());
+            System.out.println("City: " + cityChoice.getSelectedItem());
+            System.out.println("Country Index: " + countryChoice.getSelectedIndex());
+            System.out.println("Total Items: " + countryChoice.getItemCount());
+        });
+        
+        frame.add(showBtn);
+        
+        frame.setSize(300, 200);
+        frame.setVisible(true);
+        
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+}
