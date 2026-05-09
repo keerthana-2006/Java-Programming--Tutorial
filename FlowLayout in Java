@@ -1,0 +1,52 @@
+public class FlowLayoutDemo {
+    public static void main(String[] args) {
+        Frame frame = new Frame("FlowLayout Demo");
+        
+        // FlowLayout(alignment, hgap, vgap)
+        FlowLayout layout = new FlowLayout(FlowLayout.CENTER, 10, 10);
+        frame.setLayout(layout);
+        
+        // Adding multiple buttons to demonstrate flow
+        for (int i = 1; i <= 15; i++) {
+            Button btn = new Button("Button " + i);
+            frame.add(btn);
+        }
+        
+        // Control panel to change alignment
+        Panel controlPanel = new Panel(new FlowLayout());
+        
+        Button leftBtn = new Button("Left Align");
+        Button centerBtn = new Button("Center Align");
+        Button rightBtn = new Button("Right Align");
+        
+        leftBtn.addActionListener(e -> {
+            layout.setAlignment(FlowLayout.LEFT);
+            layout.layoutContainer(frame);
+        });
+        
+        centerBtn.addActionListener(e -> {
+            layout.setAlignment(FlowLayout.CENTER);
+            layout.layoutContainer(frame);
+        });
+        
+        rightBtn.addActionListener(e -> {
+            layout.setAlignment(FlowLayout.RIGHT);
+            layout.layoutContainer(frame);
+        });
+        
+        controlPanel.add(leftBtn);
+        controlPanel.add(centerBtn);
+        controlPanel.add(rightBtn);
+        
+        frame.add(controlPanel);
+        
+        frame.setSize(600, 400);
+        frame.setVisible(true);
+        
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+}
