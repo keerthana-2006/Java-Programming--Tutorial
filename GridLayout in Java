@@ -1,0 +1,79 @@
+public class GridLayoutDemo {
+    public static void main(String[] args) {
+        Frame frame = new Frame("GridLayout Demo");
+        
+        // GridLayout(rows, cols, hgap, vgap)
+        GridLayout layout = new GridLayout(4, 4, 5, 5);
+        frame.setLayout(layout);
+        
+        // Creating a calculator-style button grid
+        String[] buttons = {
+            "7", "8", "9", "/",
+            "4", "5", "6", "*",
+            "1", "2", "3", "-",
+            "0", ".", "=", "+"
+        };
+        
+        TextField display = new TextField();
+        display.setEditable(false);
+        display.setBackground(Color.WHITE);
+        display.setFont(new Font("Monospaced", Font.BOLD, 18));
+        
+        frame.add(display);  // Takes first cell
+        
+        for (String label : buttons) {
+            Button btn = new Button(label);
+            btn.setFont(new Font("Arial", Font.BOLD, 14));
+            btn.addActionListener(e -> {
+                display.setText(display.getText() + btn.getLabel());
+            });
+            frame.add(btn);
+        }
+        
+        // Control panel to change grid size
+        Frame controlFrame = new Frame("Controls");
+        controlFrame.setLayout(new FlowLayout());
+        controlFrame.setSize(300, 100);
+        
+        Label rowsLabel = new Label("Rows:");
+        TextField rowsField = new TextField("4", 5);
+        Label colsLabel = new Label("Cols:");
+        TextField colsField = new TextField("4", 5);
+        Button applyBtn = new Button("Apply");
+        
+        applyBtn.addActionListener(e -> {
+            try {
+                int rows = Integer.parseInt(rowsField.getText());
+                int cols = Integer.parseInt(colsField.getText());
+                layout.setRows(rows);
+                layout.setColumns(cols);
+                layout.layoutContainer(frame);
+                frame.validate();
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid number");
+            }
+        });
+        
+        controlFrame.add(rowsLabel);
+        controlFrame.add(rowsField);
+        controlFrame.add(colsLabel);
+        controlFrame.add(colsField);
+        controlFrame.add(applyBtn);
+        
+        frame.setSize(400, 500);
+        frame.setVisible(true);
+        controlFrame.setVisible(true);
+        
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+        
+        controlFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                controlFrame.dispose();
+            }
+        });
+    }
+}
