@@ -1,0 +1,141 @@
+//3. Creating Threads
+
+//Method 1: Extending Thread Class
+
+// Creating thread by extending Thread class
+class MyThread extends Thread {
+    private String threadName;
+    
+    public MyThread(String name) {
+        this.threadName = name;
+    }
+    
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(threadName + " - Count: " + i);
+            try {
+                Thread.sleep(500); // Sleep for 500ms
+            } catch (InterruptedException e) {
+                System.out.println(threadName + " interrupted");
+            }
+        }
+        System.out.println(threadName + " finished");
+    }
+}
+
+public class ExtendThreadDemo {
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread("Thread-1");
+        MyThread t2 = new MyThread("Thread-2");
+        MyThread t3 = new MyThread("Thread-3");
+        
+        // Start threads
+        t1.start();
+        t2.start();
+        t3.start();
+        
+        // Wait for threads to complete
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println("All threads completed");
+    }
+}
+
+//Method 2: Implementing Runnable Interface (Preferred)
+
+// Creating thread by implementing Runnable
+class Task implements Runnable {
+    private String taskName;
+    
+    public Task(String name) {
+        this.taskName = name;
+    }
+    
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(taskName + " - Step " + i + " on thread: " 
+                             + Thread.currentThread().getName());
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                System.out.println(taskName + " interrupted");
+            }
+        }
+    }
+}
+
+// Another example: Counter task
+class CounterTask implements Runnable {
+    private String name;
+    private int max;
+    
+    public CounterTask(String name, int max) {
+        this.name = name;
+        this.max = max;
+    }
+    
+    @Override
+    public void run() {
+        for (int i = 0; i <= max; i++) {
+            System.out.println(name + ": " + i);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
+}
+
+public class RunnableDemo {
+    public static void main(String[] args) {
+        // Method 1: Using Thread class with Runnable
+        Thread thread1 = new Thread(new Task("Task-1"));
+        Thread thread2 = new Thread(new Task("Task-2"));
+        
+        // Method 2: Using lambda expression (Java 8+)
+        Thread thread3 = new Thread(() -> {
+            for (int i = 1; i <= 5; i++) {
+                System.out.println("Lambda Task: " + i);
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        // Method 3: Using method reference
+        Thread thread4 = new Thread(ThreadBasics::printMessage);
+        
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
+        
+        // Using ExecutorService (discussed later)
+        System.out.println("\n=== Counter Tasks ===");
+        Thread counter1 = new Thread(new CounterTask("Counter-1", 10));
+        Thread counter2 = new Thread(new CounterTask("Counter-2", 10));
+        
+        counter1.start();
+        counter2.start();
+    }
+}
+
+class ThreadBasics {
+    public static void printMessage() {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println("Method Reference: Message " + i);
+        }
+    }
+}
