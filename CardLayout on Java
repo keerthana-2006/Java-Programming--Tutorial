@@ -1,0 +1,76 @@
+public class CardLayoutDemo {
+    public static void main(String[] args) {
+        Frame frame = new Frame("CardLayout Demo");
+        
+        CardLayout cardLayout = new CardLayout();
+        Panel cardPanel = new Panel(cardLayout);
+        
+        // Creating different cards
+        Panel card1 = new Panel(new FlowLayout());
+        card1.add(new Label("Welcome to Card 1"));
+        card1.add(new Button("Button on Card 1"));
+        card1.setBackground(Color.CYAN);
+        
+        Panel card2 = new Panel(new GridLayout(3, 2, 5, 5));
+        card2.add(new Label("Name:"));
+        card2.add(new TextField(10));
+        card2.add(new Label("Email:"));
+        card2.add(new TextField(10));
+        card2.add(new Label("Phone:"));
+        card2.add(new TextField(10));
+        card2.setBackground(Color.LIGHT_GRAY);
+        
+        Panel card3 = new Panel(new BorderLayout());
+        TextArea textArea = new TextArea("This is card 3\nWith multi-line text", 5, 30);
+        card3.add(new Label("Information Panel"), BorderLayout.NORTH);
+        card3.add(textArea, BorderLayout.CENTER);
+        card3.setBackground(Color.YELLOW);
+        
+        // Adding cards to card panel
+        cardPanel.add(card1, "Welcome");
+        cardPanel.add(card2, "Form");
+        cardPanel.add(card3, "Info");
+        
+        // Navigation panel
+        Panel navPanel = new Panel(new FlowLayout());
+        
+        Button prevBtn = new Button("Previous");
+        Button nextBtn = new Button("Next");
+        Button firstBtn = new Button("First");
+        Button lastBtn = new Button("Last");
+        
+        prevBtn.addActionListener(e -> cardLayout.previous(cardPanel));
+        nextBtn.addActionListener(e -> cardLayout.next(cardPanel));
+        firstBtn.addActionListener(e -> cardLayout.first(cardPanel));
+        lastBtn.addActionListener(e -> cardLayout.last(cardPanel));
+        
+        // Direct navigation buttons
+        Button welcomeBtn = new Button("Welcome");
+        Button formBtn = new Button("Form");
+        Button infoBtn = new Button("Info");
+        
+        welcomeBtn.addActionListener(e -> cardLayout.show(cardPanel, "Welcome"));
+        formBtn.addActionListener(e -> cardLayout.show(cardPanel, "Form"));
+        infoBtn.addActionListener(e -> cardLayout.show(cardPanel, "Info"));
+        
+        navPanel.add(prevBtn);
+        navPanel.add(nextBtn);
+        navPanel.add(firstBtn);
+        navPanel.add(lastBtn);
+        navPanel.add(welcomeBtn);
+        navPanel.add(formBtn);
+        navPanel.add(infoBtn);
+        
+        frame.add(cardPanel, BorderLayout.CENTER);
+        frame.add(navPanel, BorderLayout.SOUTH);
+        
+        frame.setSize(500, 400);
+        frame.setVisible(true);
+        
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+    }
+}
