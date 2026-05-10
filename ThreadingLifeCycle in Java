@@ -1,0 +1,76 @@
+'''
+2. Thread Life Cycle:
+---------------------
+
+Thread States
+-------------
+1.NEW - Thread created but not started
+
+2.RUNNABLE - Thread executing in JVM
+
+3.BLOCKED - Thread waiting for monitor lock
+
+4.WAITING - Thread waiting indefinitely
+
+5.TIMED_WAITING - Thread waiting for specified time
+
+6.TERMINATED - Thread completed execution
+'''
+
+public class ThreadLifeCycleDemo {
+    public static void main(String[] args) throws InterruptedException {
+        
+        // NEW state
+        Thread thread = new Thread(() -> {
+            System.out.println("Thread running...");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        
+        System.out.println("After creation: " + thread.getState()); // NEW
+        
+        // RUNNABLE state
+        thread.start();
+        System.out.println("After start(): " + thread.getState()); // RUNNABLE
+        
+        // TIMED_WAITING state
+        Thread.sleep(100);
+        System.out.println("During sleep: " + thread.getState()); // TIMED_WAITING
+        
+        // TERMINATED state
+        thread.join();
+        System.out.println("After completion: " + thread.getState()); // TERMINATED
+        
+        // Demonstrating BLOCKED and WAITING states
+        System.out.println("\n=== Blocked and Waiting States Demo ===");
+        
+        final Object lock = new Object();
+        
+        Thread t1 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 1 acquired lock");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        Thread t2 = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("Thread 2 acquired lock");
+            }
+        });
+        
+        t1.start();
+        Thread.sleep(100); // Give t1 time to acquire lock
+        t2.start();
+        Thread.sleep(100);
+        
+        System.out.println("Thread 2 state (waiting for lock): " + t2.getState()); // BLOCKED
+    }
+}
