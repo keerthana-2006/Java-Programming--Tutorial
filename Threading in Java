@@ -1,0 +1,40 @@
+'''
+Threading & Multi-threading Basics:
+-------------------------------------
+What is a Thread?
+A thread is the smallest unit of execution within a process. Multi-threading allows multiple threads to execute concurrently, 
+sharing the same process resources.
+
+Why Multi-threading?
+-Better resource utilization
+-Improved performance (especially on multi-core processors)
+-Better user experience (responsive UI)
+-Parallel processing
+'''
+
+// Basic Thread Information
+public class ThreadBasics {
+    public static void main(String[] args) {
+        // Get current running thread
+        Thread currentThread = Thread.currentThread();
+        
+        // Thread information
+        System.out.println("Thread Name: " + currentThread.getName());
+        System.out.println("Thread ID: " + currentThread.getId());
+        System.out.println("Thread Priority: " + currentThread.getPriority());
+        System.out.println("Thread State: " + currentThread.getState());
+        System.out.println("Is Alive: " + currentThread.isAlive());
+        System.out.println("Is Daemon: " + currentThread.isDaemon());
+        
+        // Set thread properties
+        currentThread.setName("Main-Thread");
+        currentThread.setPriority(Thread.MAX_PRIORITY); // 10
+        // Priority values: MIN_PRIORITY=1, NORM_PRIORITY=5, MAX_PRIORITY=10
+        
+        System.out.println("\nUpdated Thread Name: " + currentThread.getName());
+        System.out.println("Updated Priority: " + currentThread.getPriority());
+        
+        // Count active threads
+        System.out.println("Active Threads: " + Thread.activeCount());
+    }
+}
