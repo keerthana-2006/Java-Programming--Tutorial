@@ -1,0 +1,219 @@
+ Inter-thread Communication
+------------------------------
+-wait(), notify(), notifyAll()
+------------------------------
+class ProducerConsumer {
+    private int data = 0;
+    private boolean available = false;
+    
+    // Producer method
+    public synchronized void produce() throws InterruptedException {
+        while (available) {
+            System.out.println("Producer waiting...");
+            wait(); // Wait if data is available but not consumed
+        }
+        
+        // Produce data
+        data++;
+        System.out.println("Produced: " + data);
+        available = true;
+        
+        // Notify consumer
+        notify();
+    }
+    
+    // Consumer method
+    public synchronized void consume() throws InterruptedException {
+        while (!available) {
+            System.out.println("Consumer waiting...");
+            wait(); // Wait if no data available
+        }
+        
+        // Consume data
+        System.out.println("Consumed: " + data);
+        available = false;
+        
+        // Notify producer
+        notify();
+    }
+}
+
+// Better example: Message queue
+class MessageQueue {
+    private final int capacity;
+    private final java.util.LinkedList<Integer> queue = new java.util.LinkedList<>();
+    
+    public MessageQueue(int capacity) {
+        this.capacity = capacity;
+    }
+    
+    public synchronized void produce(int message) throws InterruptedException {
+        while (queue.size() == capacity) {
+            System.out.println("Queue full, producer waiting...");
+            wait();
+        }
+        
+        queue.add(message);
+        System.out.println("Produced: " + message + ", Queue size: " + queue.size());
+        notifyAll(); // Notify all waiting consumers
+    }
+    
+    public synchronized int consume() throws InterruptedException {
+        while (queue.isEmpty()) {
+            System.out.println("Queue empty, consumer waiting...");
+            wait();
+        }
+        
+        int message = queue.removeFirst();
+        System.out.println("Consumed: " + message + ", Queue size: " + queue.size());
+        notifyAll(); // Notify waiting producers
+        return message;
+    }
+}
+
+class BoundedBuffer {
+    private int[] buffer;
+    private int count = 0;
+    private int in = 0;
+    private int out = 0;
+    
+    public BoundedBuffer(int size) {
+        buffer = new int[size];
+    }
+    
+    public synchronized void put(int value) throws InterruptedException {
+        while (count == buffer.length) {
+            System.out.println("Buffer full, waiting...");
+            wait();
+        }
+        
+        buffer[in] = value;
+        in = (in + 1) % buffer.length;
+        count++;
+        System.out.println("Put: " + value + ", Count: " + count);
+        notifyAll();
+    }
+    
+    public synchronized int get() throws InterruptedException {
+        while (count == 0) {
+            System.out.println("Buffer empty, waiting...");
+            wait();
+        }
+        
+        int value = buffer[out];
+        out = (out + 1) % buffer.length;
+        count--;
+        System.out.println("Got: " + value + ", Count: " + count);
+        notifyAll();
+        return value;
+    }
+}
+
+public class InterThreadCommunicationDemo {
+    public static void main(String[] args) throws InterruptedException {
+        // Basic producer-consumer
+        System.out.println("=== Basic Producer-Consumer ===");
+        ProducerCounter pc = new ProducerCounter();
+        
+        Thread producer = new Thread(() -> {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    pc.produce();
+                    Thread.sleep(500);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        
+        Thread consumer = new Thread(() -> {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    pc.consume();
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        
+        producer.start();
+        consumer.start();
+        producer.join();
+        consumer.join();
+        
+        // Message queue
+        System.out.println("\n=== Message Queue (Multiple Producers/Consumers) ===");
+        MessageQueue mq = new MessageQueue(3);
+        
+        // Multiple producers
+        Runnable producerTask = () -> {
+            try {
+                for (int i = 1; i <= 5; i++) {
+                    mq.produce(Integer.parseInt(Thread.currentThread().getName() + i));
+                    Thread.sleep(200);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+        
+        // Multiple consumers
+        Runnable consumerTask = () -> {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    mq.consume();
+                    Thread.sleep(300);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        };
+        
+        Thread p1 = new Thread(producerTask, "1");
+        Thread p2 = new Thread(producerTask, "2");
+        Thread c1 = new Thread(consumerTask, "Consumer1");
+        Thread c2 = new Thread(consumerTask, "Consumer2");
+        
+        p1.start();
+        p2.start();
+        c1.start();
+        c2.start();
+        
+        p1.join();
+        p2.join();
+        c1.join();
+        c2.join();
+        
+        // Bounded buffer
+        System.out.println("\n=== Bounded Buffer ===");
+        BoundedBuffer buffer = new BoundedBuffer(3);
+        
+        Thread prod = new Thread(() -> {
+            try {
+                for (int i = 1; i <= 10; i++) {
+                    buffer.put(i);
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        
+        Thread cons = new Thread(() -> {
+            try {
+                for (int i = 0; i < 10; i++) {
+                    buffer.get();
+                    Thread.sleep(200);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        
+        prod.start();
+        cons.start();
+        prod.join();
+        cons.join();
+    }
+}
